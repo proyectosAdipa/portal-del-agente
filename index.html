@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal del Agente - Adipa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    /* Estilos Compartidos */
+    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; color: #333; }
+    .container { max-width: 620px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    img.logo { width: 160px; display: block; margin: 0 auto 25px; cursor: pointer; }
+    h1 { font-size: 22px; margin-bottom: 25px; text-align: center; color: #333; }
+    label { font-weight: bold; margin-top: 18px; display: block; color: #444; }
+    input, select, button, textarea { width: 100%; padding: 10px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
+    input, select, button { height: 45px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #704EFD; box-shadow: 0 0 5px rgba(112, 78, 253, 0.2); }
+    
+    button { background-color: #704EFD; color: white; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; transition: all 0.3s; }
+    button:hover:not(:disabled) { background-color: #5a3ecf; }
+    button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+    .mensaje { margin-top: 20px; font-size: 14px; text-align: center; font-weight: 500; }
+    .hidden { display: none; }
+
+    /* Estilos Pantalla Inicial */
+    .portal-menu { display: flex; gap: 15px; margin-top: 20px; }
+    .btn-portal { height: 100px; font-size: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    
+    /* Estilos Certificados */
+    .editable-field { border: 1.5px solid #704EFD; background-color: #faf9ff; font-weight: 500; }
+    .info-programa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee; }
+    #btnDescargarPDF { background-color: #25d366; display: none; margin-top: 15px; }
+    #btnDescargarPDF:hover { background-color: #1eb956; }
+    .btn-secundario-cert { background-color: #666; margin-top: 10px; }
+    .btn-reset { background-color: #f1f1f1; color: #333; border: 1px solid #ccc; margin-top: 30px; }
+    textarea { height: 120px; resize: vertical; font-family: inherit; line-height: 1.5; }
+
+    /* Estilos Prórrogas */
+    select[multiple] { height: auto; min-height: 120px; border: 2px solid #704EFD; margin-bottom: 10px; }
+    .btn-copiar { background-color: #28a745; margin-top: 10px; }
+    .btn-copiar:hover { background-color: #218838; }
+    .btn-copiado { background-color: #333 !important; }
+    .info-nota { font-size: 12px; color: #666; font-style: italic; margin-top: 5px; }
+    .resultado-box { margin-top: 20px; padding: 15px; border: 2px dashed #704EFD; border-radius: 8px; background: #f4f1ff; }
+    .btn-secundario-prorrogas { background-color: #f4f1ff; color: #704EFD; border: 1px solid #704EFD; margin-top: 15px; }
+  </style>
+</head>
+
+<body>
+
+  <img src="https://aula.adipa.cl/pluginfile.php/1/theme_mb2nl/logo/1732710878/LOGOADIPA%202%20%283%29%20%281%29.png" alt="Logo de ADIPA" class="logo" onclick="location.reload()">
+
+  <div class="container">
+    
+    <div id="pantalla-inicio">
+        <h1>Portal del Agente</h1>
+        <p style="text-align: center; color: #666;">Selecciona la gestión que deseas realizar:</p>
+        <div class="portal-menu">
+            <button class="btn-portal" onclick="mostrarGestion('certificados')">
+                <span>Gestión de Certificados</span>
+            </button>
+            <button class="btn-portal" onclick="mostrarGestion('prorrogas')">
+                <span>Solicitud de Prórrogas</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="seccion-certificados" class="hidden">
+        <h1>Gestión de Certificados</h1>
+        <div id="formularioInicialCert">
+          <label for="emailCert">Correo electrónico</label>
+          <input type="email" id="emailCert" placeholder="Correo del alumno">
+    
+          <label for="tipoCertificado">Tipo de certificado</label>
+          <select id="tipoCertificado">
+            <option value="">-- Selecciona una opción --</option>
+            <option value="Certificado de Alumno Regular">Certificado de Alumno Regular</option>
+            <option value="Certificado de Participación">Certificado de Participación</option>
+            <option value="Certificado de Inscripción">Certificado de Inscripción</option>
+            <option value="Certificado de Culminación de Estudios">Certificado de Culminación de Estudios</option>
+          </select>
+    
+          <button id="btnBuscarCert" onclick="buscarProgramasCert()">Buscar programas</button>
+        </div>
+    
+        <div id="contenedorCursosCert" style="display:none; margin-top: 25px; border-top: 2px solid #eee; padding-top: 10px;">
+          <label for="nombreEdicion">Nombre en certificado</label>
+          <input type="text" id="nombreEdicion" class="editable-field">
+    
+          <label for="rutEdicion">RUT</label>
+          <input type="text" id="rutEdicion" class="editable-field">
+    
+          <label for="cursoCert">Selecciona el Programa</label>
+          <select id="cursoCert"></select>
+    
+          <button id="btnDetallesCert" onclick="obtenerDetallesProgramaCert()">Cargar datos del programa</button>
+    
+          <div id="detalleProgramaCert" style="display: none;">
+            <div class="info-programa-grid">
+              <div><label style="font-size: 12px;">Fecha Inicio</label><input type="text" id="fInicio" class="editable-field"></div>
+              <div><label style="font-size: 12px;">Fecha Término</label><input type="text" id="fTermino" class="editable-field"></div>
+              <div><label style="font-size: 12px;">Horas</label><input type="text" id="nHoras" class="editable-field"></div>
+              <div><label style="font-size: 12px;">Docente</label><input type="text" id="nDocente" class="editable-field"></div>
+            </div>
+            <button id="btnGenerarCert" onclick="generarCertificadoFinal()">Generar certificado</button>
+          </div>
+    
+          <div id="contenedorMensajeFinalCert" class="hidden">
+            <button id="btnDescargarPDF" onclick="descargarArchivoCert()">⬇ Descargar Certificado PDF</button>
+            <label style="margin-top:20px;">Mensaje para el alumno:</label>
+            <textarea id="textoPersonalizadoCert"></textarea>
+            <button class="btn-secundario-cert" onclick="copiarTextoCert()">Copiar mensaje</button>
+            <button class="btn-reset" onclick="location.reload()">↺ Volver al Inicio</button>
+          </div>
+        </div>
+    </div>
+
+    <div id="seccion-prorrogas" class="hidden">
+        <h1>Solicitud de Prórrogas</h1>
+        <label for="emailProrroga">Correo electrónico</label>
+        <input type="email" id="emailProrroga" placeholder="Ingresa el correo registrado en Adipa" required>
+    
+        <label for="tipoProrroga">Tipo de Prórroga</label>
+        <select id="tipoProrroga" onchange="limpiarPantallaProrroga()">
+          <option value="">-- Selecciona una opción --</option>
+          <option value="prorroga_evaluacion">Evaluaciones</option>
+          <option value="prorroga_material">Descarga de material</option>
+        </select>
+    
+        <div id="extraEvaluacion" class="hidden">
+            <label for="tipoProgramaProrroga">Tipo de Programa</label>
+            <select id="tipoProgramaProrroga" onchange="toggleBotonBuscarProrroga()">
+                <option value="curso">Curso</option>
+                <option value="diplomado">Diplomado</option>
+            </select>
+        </div>
+    
+        <button id="btnBuscarProrroga" onclick="buscarProgramasProrroga()">Buscar programas</button>
+    
+        <div id="contenedorCursosProrroga" class="hidden" style="margin-top: 30px; border-top: 2px solid #eee; padding-top: 10px;">
+          <label for="cursoProrroga">Selecciona el Programa</label>
+          <select id="cursoProrroga" onchange="toggleBotonBuscarProrroga()"></select>
+    
+          <button id="btnBuscarModulosProrroga" class="btn-secundario-prorrogas hidden" onclick="buscarModulosDiplomadoProrroga()">Buscar módulos del programa</button>
+    
+          <div id="divModulo" class="hidden">
+              <label id="labelModulo" for="modulo_select">Módulos/Evaluaciones pendientes</label>
+              <div id="wrapperModulo"></div>
+              <p class="info-nota">Mantén presionado Ctrl (Win) o Cmd (Mac) para elegir varios.</p>
+          </div>
+    
+          <div id="divDias">
+              <label for="diasProrroga">Días de prórroga</label>
+              <select id="diasProrroga"></select>
+              <p id="notaDias" class="info-nota"></p>
+          </div>
+    
+          <button id="btnEnviarFinalProrroga" class="hidden" onclick="enviarSolicitudFinalProrroga()">Gestionar Prórroga</button>
+        </div>
+    
+        <div id="resultadoFinalProrroga" class="hidden resultado-box">
+            <label style="margin-top: 0; color: #704EFD;">Respuesta para el estudiante:</label>
+            <textarea id="textoRespuestaProrroga"></textarea>
+            <button id="btnCopiarProrroga" class="btn-copiar" onclick="copiarTextoProrroga()">Copiar Mensaje</button>
+            <button onclick="location.reload()" style="background-color: #666; margin-top: 10px;">Volver al Inicio</button>
+        </div>
+    </div>
+
+    <div class="mensaje" id="mensajeGral"></div>
+  </div>
+
+  <script>
+    /* LÓGICA DE NAVEGACIÓN */
+    function mostrarGestion(tipo) {
+        document.getElementById('pantalla-inicio').classList.add('hidden');
+        if (tipo === 'certificados') {
+            document.getElementById('seccion-certificados').classList.remove('hidden');
+        } else {
+            document.getElementById('seccion-prorrogas').classList.remove('hidden');
+        }
+    }
+
+    /* --- LÓGICA DE CERTIFICADOS --- */
+    const WEB_CERT_BUSCAR = "https://hook.us2.make.com/a8ja8l2g1oo7qsrjr5xqo3n4bacj8bf3";
+    const WEB_CERT_DETALLES = "https://hook.us2.make.com/ay9xse6yhq7gifuf0smvc7fbub1f7rq1";
+    const WEB_CERT_GENERAR = "https://hook.us2.make.com/2fappqnu386930rkwkxas6dg8bhnpesl";
+    let urlDescargaGlobal = "";
+
+    async function buscarProgramasCert() {
+      const email = document.getElementById("emailCert").value.trim();
+      const tipo = document.getElementById("tipoCertificado").value;
+      const mensaje = document.getElementById("mensajeGral");
+      const btn = document.getElementById("btnBuscarCert");
+
+      if (!email || !tipo) { alert("Completa correo y tipo."); return; }
+      mensaje.textContent = "Buscando...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(WEB_CERT_BUSCAR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, tipo_certificado: tipo })
+        });
+        const data = await res.json();
+        let cursos = Array.isArray(data.cursos) ? data.cursos : (data.cursos ? data.cursos.split(',') : []);
+        document.getElementById("nombreEdicion").value = data.nombre_estudiante || "";
+        document.getElementById("rutEdicion").value = data.rut || "";
+        const select = document.getElementById("cursoCert");
+        select.innerHTML = "";
+        cursos.forEach(c => {
+          let opt = document.createElement("option");
+          opt.value = c; opt.textContent = c;
+          select.appendChild(opt);
+        });
+        document.getElementById("contenedorCursosCert").style.display = "block";
+        mensaje.textContent = "";
+      } catch (e) { mensaje.textContent = "Error al buscar datos."; }
+      finally { btn.disabled = false; }
+    }
+
+    async function obtenerDetallesProgramaCert() {
+      const btn = document.getElementById("btnDetallesCert");
+      btn.disabled = true;
+      try {
+        const res = await fetch(WEB_CERT_DETALLES, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            programa: document.getElementById("cursoCert").value,
+            email: document.getElementById("emailCert").value
+          })
+        });
+        const info = await res.json();
+        document.getElementById("fInicio").value = info.fecha_inicio || "";
+        document.getElementById("fTermino").value = info.fecha_termino || "";
+        document.getElementById("nHoras").value = info.horas || "";
+        document.getElementById("nDocente").value = info.docente || "";
+        document.getElementById("detalleProgramaCert").style.display = "block";
+      } catch (e) { alert("Error al cargar detalles."); }
+      finally { btn.disabled = false; }
+    }
+
+    async function generarCertificadoFinal() {
+      const btn = document.getElementById("btnGenerarCert");
+      const mensaje = document.getElementById("mensajeGral");
+      const datosFinales = {
+        nombre: document.getElementById("nombreEdicion").value,
+        rut: document.getElementById("rutEdicion").value,
+        email: document.getElementById("emailCert").value,
+        tipo: document.getElementById("tipoCertificado").value,
+        programa: document.getElementById("cursoCert").value,
+        fecha_inicio: document.getElementById("fInicio").value,
+        fecha_termino: document.getElementById("fTermino").value,
+        horas: document.getElementById("nHoras").value,
+        docente: document.getElementById("nDocente").value
+      };
+      mensaje.textContent = "Procesando certificado...";
+      btn.disabled = true;
+      try {
+        const res = await fetch(WEB_CERT_GENERAR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datosFinales)
+        });
+        if (res.ok) {
+          const respuesta = await res.json();
+          if(respuesta.url_pdf) {
+            urlDescargaGlobal = respuesta.url_pdf;
+            document.getElementById("btnDescargarPDF").style.display = "block";
+          }
+          document.getElementById("textoPersonalizadoCert").value = respuesta.mensaje_texto || "Certificado listo.";
+          document.getElementById("contenedorMensajeFinalCert").classList.remove("hidden");
+          mensaje.textContent = "¡Certificado listo para descargar!";
+          mensaje.style.color = "green";
+        }
+      } catch (e) { mensaje.textContent = "Error en el paso final."; mensaje.style.color = "red"; }
+      finally { btn.disabled = false; }
+    }
+
+    function descargarArchivoCert() {
+      if(urlDescargaGlobal !== "") {
+        const link = document.createElement('a');
+        link.href = urlDescargaGlobal;
+        link.target = "_blank";
+        link.click();
+      }
+    }
+
+    function copiarTextoCert() {
+      const texto = document.getElementById("textoPersonalizadoCert");
+      texto.select();
+      navigator.clipboard.writeText(texto.value);
+      alert("¡Mensaje copiado!");
+    }
+
+    /* --- LÓGICA DE PRÓRROGAS --- */
+    const WEB_PRORR_BUSCAR = "https://hook.us2.make.com/k6n5v5l2brwcfe3ab14t3s4rwojl1akg";
+    const WEB_PRORR_MODULOS = "https://hook.us2.make.com/560sgwr5uq2dp1jn0whys0mws4yzuhby";
+    const WEB_PRORR_ENVIAR = "https://hook.us2.make.com/tkiwujry2rm5llcu4jbu7u7qgy8u23qv";
+
+    function limpiarPantallaProrroga() {
+        const tipo = document.getElementById("tipoProrroga").value;
+        document.getElementById("contenedorCursosProrroga").classList.add("hidden");
+        document.getElementById("resultadoFinalProrroga").classList.add("hidden");
+        document.getElementById("mensajeGral").textContent = "";
+        if (tipo === "prorroga_evaluacion") {
+            document.getElementById("extraEvaluacion").classList.remove("hidden");
+        } else {
+            document.getElementById("extraEvaluacion").classList.add("hidden");
+        }
+        toggleBotonBuscarProrroga();
+    }
+
+    function toggleBotonBuscarProrroga() {
+        const tipoProg = document.getElementById("tipoProgramaProrroga").value;
+        const tipoProrroga = document.getElementById("tipoProrroga").value;
+        const btnModulos = document.getElementById("btnBuscarModulosProrroga");
+        const btnFinal = document.getElementById("btnEnviarFinalProrroga");
+        btnModulos.classList.add("hidden");
+        btnFinal.classList.add("hidden");
+        if (tipoProrroga === "prorroga_evaluacion") {
+            if (tipoProg === "diplomado") { btnModulos.classList.remove("hidden"); } 
+            else { btnFinal.classList.remove("hidden"); }
+        } else if (tipoProrroga === "prorroga_material") {
+            btnFinal.classList.remove("hidden");
+        }
+    }
+
+    async function buscarProgramasProrroga() {
+      const email = document.getElementById("emailProrroga").value.trim();
+      const tipoProrroga = document.getElementById("tipoProrroga").value;
+      const tipoPrograma = document.getElementById("tipoProgramaProrroga").value;
+      const mensaje = document.getElementById("mensajeGral");
+      const boton = document.getElementById("btnBuscarProrroga");
+
+      if (!email || !tipoProrroga) { alert("Completa el correo y tipo."); return; }
+      mensaje.textContent = "Buscando programas...";
+      boton.disabled = true;
+
+      try {
+        const response = await fetch(WEB_PRORR_BUSCAR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, tipo_prorroga: tipoProrroga, tipo_programa: tipoProrroga === "prorroga_material" ? "curso" : tipoPrograma })
+        });
+        const data = await response.json(); 
+        let listaCursos = data.cursos ? (Array.isArray(data.cursos) ? data.cursos : data.cursos.split(',').map(c => c.trim().replace(/[\[\]"']/g, ""))) : [];
+        if (listaCursos.length === 0) throw new Error();
+        const selectCursos = document.getElementById("cursoProrroga");
+        selectCursos.innerHTML = "";
+        listaCursos.forEach(c => { if(c) { let opt = document.createElement("option"); opt.value = c; opt.textContent = c; selectCursos.appendChild(opt); } });
+        const selectDias = document.getElementById("diasProrroga");
+        selectDias.innerHTML = "";
+        if (tipoProrroga === "prorroga_material") {
+            [1, 2].forEach(d => { let opt = document.createElement("option"); opt.value = d; opt.textContent = d + (d === 1 ? " día" : " días"); selectDias.appendChild(opt); });
+            document.getElementById("notaDias").textContent = "Máximo 2 días para descarga.";
+        } else {
+            [3, 5, 7, 10].forEach(d => { let opt = document.createElement("option"); opt.value = d; opt.textContent = d + " días"; selectDias.appendChild(opt); });
+            document.getElementById("notaDias").textContent = "Plazo estándar: 7 días.";
+        }
+        document.getElementById("contenedorCursosProrroga").classList.remove("hidden");
+        toggleBotonBuscarProrroga();
+        mensaje.textContent = "Programas encontrados.";
+        mensaje.style.color = "green";
+      } catch (e) { mensaje.textContent = "No se hallaron programas."; mensaje.style.color = "red"; }
+      finally { boton.disabled = false; }
+    }
+
+    async function buscarModulosDiplomadoProrroga() {
+        const email = document.getElementById("emailProrroga").value.trim();
+        const programa = document.getElementById("cursoProrroga").value;
+        const mensaje = document.getElementById("mensajeGral");
+        const btnModulos = document.getElementById("btnBuscarModulosProrroga");
+        mensaje.textContent = "Consultando módulos...";
+        btnModulos.disabled = true;
+        try {
+            const res = await fetch(WEB_PRORR_MODULOS, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email, nombre_programa: programa })
+            });
+            const modulos = await res.json();
+            if (Array.isArray(modulos) && modulos.length > 0) {
+                let selectHtml = '<select id="modulo_select" multiple>';
+                modulos.forEach(m => { let val = (typeof m === 'object' && m !== null) ? (m.nombre || m.id) : m; selectHtml += `<option value="${val}">${val}</option>`; });
+                selectHtml += '</select>';
+                document.getElementById("wrapperModulo").innerHTML = selectHtml;
+                document.getElementById("divModulo").classList.remove("hidden");
+                document.getElementById("btnEnviarFinalProrroga").classList.remove("hidden");
+                mensaje.textContent = "Módulos cargados.";
+            }
+        } catch (e) { alert("Error al cargar módulos."); }
+        finally { btnModulos.disabled = false; }
+    }
+
+    async function enviarSolicitudFinalProrroga() {
+      const mensaje = document.getElementById("mensajeGral");
+      const btnFinal = document.getElementById("btnEnviarFinalProrroga");
+      let modulosSeleccionados = "Completo";
+      if (document.getElementById("tipoProrroga").value === "prorroga_evaluacion" && document.getElementById("tipoProgramaProrroga").value === "diplomado") {
+          const selectM = document.getElementById("modulo_select");
+          const seleccionados = Array.from(selectM.selectedOptions).map(opt => opt.value);
+          if (seleccionados.length === 0) { alert("Selecciona un módulo."); return; }
+          modulosSeleccionados = seleccionados.join(", ");
+      }
+      const payload = {
+        email: document.getElementById("emailProrroga").value.trim(),
+        tipo_prorroga: document.getElementById("tipoProrroga").value,
+        tipo_programa: document.getElementById("tipoProrroga").value === "prorroga_material" ? "curso" : document.getElementById("tipoProgramaProrroga").value,
+        programa: document.getElementById("cursoProrroga").value,
+        modulo: modulosSeleccionados,
+        dias_adicionales: document.getElementById("diasProrroga").value,
+        fecha_solicitud: new Date().toLocaleString()
+      };
+      mensaje.textContent = "Procesando...";
+      btnFinal.disabled = true;
+      try {
+        const res = await fetch(WEB_PRORR_ENVIAR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          mensaje.innerHTML = "<strong>¡Gestión completada!</strong>";
+          document.getElementById("resultadoFinalProrroga").classList.remove("hidden");
+          document.getElementById("textoRespuestaProrroga").value = data.respuesta || "Prórroga asignada.";
+          btnFinal.classList.add("hidden");
+        }
+      } catch (e) { mensaje.textContent = "Error final."; }
+      finally { btnFinal.disabled = false; }
+    }
+
+    function copiarTextoProrroga() {
+      const texto = document.getElementById("textoRespuestaProrroga");
+      texto.select();
+      navigator.clipboard.writeText(texto.value);
+      alert("¡Copiado!");
+    }
+  </script>
+</body>
+</html>
