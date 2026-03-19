@@ -7,8 +7,8 @@
 
   <style>
     /* Estilos Compartidos */
-    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; color: #333; }
-    .container { max-width: 620px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; color: #333; margin: 0; padding-top: 60px; /* Espacio para el botón flotante */ }
+    .container { max-width: 620px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
     img.logo { width: 160px; display: block; margin: 0 auto 25px; cursor: pointer; }
     h1 { font-size: 22px; margin-bottom: 25px; text-align: center; color: #333; }
     label { font-weight: bold; margin-top: 18px; display: block; color: #444; }
@@ -23,9 +23,42 @@
     .mensaje { margin-top: 20px; font-size: 14px; text-align: center; font-weight: 500; }
     .hidden { display: none; }
 
-    /* Navegación y Botón Volver */
-    .nav-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #eee; pb: 10px; }
-    .btn-volver { width: auto; background-color: #666; margin-top: 0; padding: 5px 15px; height: 35px; font-size: 12px; }
+    /* Botón Volver Flotante (Casita) */
+    .btn-volver-flotante {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
+        background-color: #ffffff;
+        color: #704EFD;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px; /* Tamaño de la casita */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000; /* Asegurar que esté por encima de todo */
+        border: 1px solid #eee;
+        margin-top: 0; /* Resetear margin-top de botones generales */
+    }
+    .btn-volver-flotante:hover {
+        background-color: #704EFD;
+        color: #ffffff;
+        transform: scale(1.05);
+    }
+    /* Indicador de sección al lado de la casita */
+    .indicador-seccion {
+        position: fixed;
+        top: 27px;
+        left: 70px;
+        font-size: 12px;
+        color: #704EFD;
+        font-weight: bold;
+        z-index: 1000;
+    }
 
     /* Estilos Pantalla Inicial */
     .portal-menu { display: flex; gap: 15px; margin-top: 20px; }
@@ -37,7 +70,6 @@
     #btnDescargarPDF { background-color: #25d366; display: none; margin-top: 15px; }
     #btnDescargarPDF:hover { background-color: #1eb956; }
     .btn-secundario-cert { background-color: #666; margin-top: 10px; }
-    .btn-reset { background-color: #f1f1f1; color: #333; border: 1px solid #ccc; margin-top: 30px; }
     textarea { height: 120px; resize: vertical; font-family: inherit; line-height: 1.5; }
 
     /* Estilos Prórrogas */
@@ -52,6 +84,12 @@
 </head>
 
 <body>
+
+  <div id="wrapper-nav" class="hidden">
+      <div class="btn-volver-flotante" onclick="volverAlInicio()" title="Volver al Menú Principal">
+          &#127962; </div>
+      <span id="texto-indicador" class="indicador-seccion"></span>
+  </div>
 
   <img src="https://aula.adipa.cl/pluginfile.php/1/theme_mb2nl/logo/1732710878/LOGOADIPA%202%20%283%29%20%281%29.png" alt="Logo de ADIPA" class="logo" onclick="volverAlInicio()">
 
@@ -71,10 +109,6 @@
     </div>
 
     <div id="seccion-certificados" class="hidden">
-        <div class="nav-header">
-            <button class="btn-volver" onclick="volverAlInicio()">← Volver al Menú</button>
-            <span style="font-size: 12px; color: #704EFD; font-weight: bold;">CERTIFICADOS</span>
-        </div>
         <h1>Gestión de Certificados</h1>
         <div id="formularioInicialCert">
           <label for="emailCert">Correo electrónico</label>
@@ -124,10 +158,6 @@
     </div>
 
     <div id="seccion-prorrogas" class="hidden">
-        <div class="nav-header">
-            <button class="btn-volver" onclick="volverAlInicio()">← Volver al Menú</button>
-            <span style="font-size: 12px; color: #704EFD; font-weight: bold;">PRÓRROGAS</span>
-        </div>
         <h1>Solicitud de Prórrogas</h1>
         <label for="emailProrroga">Correo electrónico</label>
         <input type="email" id="emailProrroga" placeholder="Ingresa el correo registrado en Adipa" required>
@@ -169,7 +199,7 @@
     
           <button id="btnEnviarFinalProrroga" class="hidden" onclick="enviarSolicitudFinalProrroga()">Gestionar Prórroga</button>
         </div>
-    
+            
         <div id="resultadoFinalProrroga" class="hidden resultado-box">
             <label style="margin-top: 0; color: #704EFD;">Respuesta para el estudiante:</label>
             <textarea id="textoRespuestaProrroga"></textarea>
@@ -181,24 +211,36 @@
   </div>
 
   <script>
-    /* LÓGICA DE NAVEGACIÓN MEJORADA */
+    /* LÓGICA DE NAVEGACIÓN FLOTANTE */
     function mostrarGestion(tipo) {
         document.getElementById('pantalla-inicio').classList.add('hidden');
         document.getElementById('mensajeGral').textContent = "";
+        
+        // Mostrar botón flotante e indicador
+        document.getElementById('wrapper-nav').classList.remove('hidden');
+        const indicador = document.getElementById('texto-indicador');
+
         if (tipo === 'certificados') {
             document.getElementById('seccion-certificados').classList.remove('hidden');
+            indicador.textContent = "CERTIFICADOS";
         } else {
             document.getElementById('seccion-prorrogas').classList.remove('hidden');
+            indicador.textContent = "PRÓRROGAS";
         }
     }
 
     function volverAlInicio() {
-        // Ocultar secciones
+        // Ocultar secciones de gestión
         document.getElementById('seccion-certificados').classList.add('hidden');
         document.getElementById('seccion-prorrogas').classList.add('hidden');
+        
+        // Ocultar navegación flotante
+        document.getElementById('wrapper-nav').classList.add('hidden');
+
         // Mostrar inicio
         document.getElementById('pantalla-inicio').classList.remove('hidden');
-        // Limpiar mensajes
+        
+        // Limpiar mensajes y estados
         document.getElementById('mensajeGral').textContent = "";
         document.getElementById('mensajeGral').style.color = "#333";
     }
