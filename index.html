@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    /* Estilos Compartidos */
+    /* ==========================================================================
+       Estilos Compartidos Base
+       ========================================================================== */
     body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; color: #333; margin: 0; padding-top: 60px; /* Espacio para el botón flotante */ }
     .container { max-width: 620px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
     img.logo { width: 160px; display: block; margin: 0 auto 25px; cursor: pointer; }
@@ -18,27 +20,27 @@
     
     button { background-color: #704EFD; color: white; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; transition: all 0.3s; }
     button:hover:not(:disabled) { background-color: #5a3ecf; }
-    button:disabled { background-color: #ccc; cursor: not-allowed; }
+    button:disabled { background-color: #ccc !important; color: #666; cursor: not-allowed; }
 
     .mensaje { margin-top: 20px; font-size: 14px; text-align: center; font-weight: 500; }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
 
-    /* Botón Volver Flotante Actualizado */
+    /* Botón Volver Flotante */
     .btn-volver-flotante {
         position: fixed;
         top: 15px;
         left: 15px;
-        width: auto; /* Ancho automático para el texto */
-        padding: 0 15px; /* Espaciado lateral */
-        height: 35px; /* Altura más baja */
+        width: auto;
+        padding: 0 15px;
+        height: 35px;
         background-color: #ffffff;
         color: #704EFD;
-        border-radius: 6px; /* Bordes redondeados */
+        border-radius: 6px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px; /* Texto más pequeño */
+        font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
@@ -54,10 +56,12 @@
     }
 
     /* Estilos Pantalla Inicial */
-    .portal-menu { display: flex; gap: 15px; margin-top: 20px; }
-    .btn-portal { height: 100px; font-size: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .portal-menu { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .btn-portal { height: 80px; font-size: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-top: 0; }
     
-    /* Estilos Certificados */
+    /* ==========================================================================
+       Estilos específicos: Certificados
+       ========================================================================== */
     .editable-field { border: 1.5px solid #704EFD; background-color: #faf9ff; font-weight: 500; }
     .info-programa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee; }
     #btnDescargarPDF { background-color: #25d366; display: none; margin-top: 15px; }
@@ -65,14 +69,84 @@
     .btn-secundario-cert { background-color: #666; margin-top: 10px; }
     textarea { height: 120px; resize: vertical; font-family: inherit; line-height: 1.5; }
 
-    /* Estilos Prórrogas */
+    /* ==========================================================================
+       Estilos específicos: Prórrogas
+       ========================================================================== */
     select[multiple] { height: auto; min-height: 120px; border: 2px solid #704EFD; margin-bottom: 10px; }
     .btn-copiar { background-color: #28a745; margin-top: 10px; }
-    .btn-copiar:hover { background-color: #218838; }
+    .btn-copiar:hover:not(:disabled) { background-color: #218838; }
     .btn-copiado { background-color: #333 !important; }
     .info-nota { font-size: 12px; color: #666; font-style: italic; margin-top: 5px; }
     .resultado-box { margin-top: 20px; padding: 15px; border: 2px dashed #704EFD; border-radius: 8px; background: #f4f1ff; }
     .btn-secundario-prorrogas { background-color: #f4f1ff; color: #704EFD; border: 1px solid #704EFD; margin-top: 15px; }
+
+    /* ==========================================================================
+       Estilos específicos: Cupones y Beneficios
+       ========================================================================== */
+    #seccion-cupones textarea { height: 200px; background: #f9f9f9; border: 1px solid #704EFD; font-size: 13px; }
+    .resultado-box-cupones { margin-top: 24px; border-top: 2px solid #eee; padding-top: 20px; }
+    .dato-fila { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+    .dato-fila:last-child { border-bottom: none; }
+    .dato-etiqueta { color: #666; font-weight: bold; }
+    .dato-valor { color: #333; text-align: right; max-width: 60%; word-break: break-word; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+    .badge-si { background: #e6f9f0; color: #1a7a4a; }
+    .badge-no { background: #fdecea; color: #c0392b; }
+    .badge-nd { background: #f0ecff; color: #704EFD; }
+    .badge-verified { background: #e6f9f0; color: #1a7a4a; }
+    .badge-vigente { background: #e6f9f0; color: #1a7a4a; }
+    .badge-vencido { background: #fdecea; color: #c0392b; }
+    .badge-sinlimite { background: #f0ecff; color: #704EFD; }
+    .badge-sincupon { background: #f2f4f7; color: #667085; }
+    .seccion-titulo { font-size: 12px; font-weight: bold; color: #704EFD; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 22px; margin-bottom: 8px; border-bottom: 1px solid #ede9ff; padding-bottom: 4px; }
+    .cupon-extra { padding: 12px 14px; background: #f9f7ff; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; text-align: left; }
+    .cupon-extra.sin-cupon { background: #fafafa; border: 1px dashed #d0d5dd; }
+    .cupon-extra-info { flex: 1; min-width: 0; }
+    .cupon-extra .codigo { font-weight: bold; font-size: 14px; color: #111; word-break: break-word; }
+    .cupon-extra .codigo.sin-cupon-texto { color: #999; font-style: italic; font-weight: 600; }
+    .cupon-extra .tipo { font-size: 12px; color: #888; margin-bottom: 2px; }
+    .cupon-extra .vence { font-size: 11px; color: #999; margin-top: 2px; }
+    .cupon-extra-acciones { display: flex; align-items: center; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+    .btn-mini { width: auto; height: 32px; padding: 0 12px; font-size: 12px; margin-top: 0; border-radius: 6px; }
+    .btn-solicitar { background: #28a745; }
+    .btn-solicitar:hover:not(:disabled) { background: #218838; }
+    .btn-hubspot { display: inline-block; padding: 8px 16px; background: #ff7a59; color: white; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; transition: background 0.2s; height: auto; text-align: center; }
+    .btn-hubspot:hover { background: #e8603a; }
+    .seccion-mensaje { margin-top: 24px; }
+    .btn-gris { background-color: #666; margin-top: 20px; }
+    .btn-gris:hover:not(:disabled) { background-color: #555; }
+    .panel-solicitud-cupon { width: 100%; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #d0d5dd; }
+    .panel-inner { background: #ffffff; border: 1px solid #ede9ff; border-radius: 8px; padding: 12px; }
+    .panel-texto { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 12px; text-align: left; }
+    .upload-solicitud-zone { border: 2px dashed #d0d5dd; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; background: #fafafa; color: #555; font-size: 13px; transition: all 0.2s; }
+    .upload-solicitud-zone:hover, .upload-solicitud-zone.drag-over { border-color: #704EFD; background: #f4f1ff; }
+    .upload-icon { font-size: 26px; margin-bottom: 6px; }
+    .upload-ayuda { font-size: 12px; color: #999; margin-top: 4px; }
+    .preview-solicitud { margin-top: 10px; padding: 8px 10px; background: #e6f9f0; color: #1a7a4a; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; }
+    .preview-solicitud button { width: auto; height: 28px; margin-top: 0; padding: 0 10px; font-size: 11px; background: #667085; }
+    .respuesta-solicitud { margin-top: 12px; padding: 10px 12px; border-radius: 6px; background: #f0ecff; color: #704EFD; font-size: 13px; line-height: 1.4; white-space: pre-wrap; text-align: left; }
+    .respuesta-solicitud.ok { background: #e6f9f0; color: #1a7a4a; }
+    .respuesta-solicitud.error { background: #fdecea; color: #c0392b; }
+    .cupon-creado-panel { margin-top: 16px; border: 1.5px solid #12B76A; border-radius: 8px; background: #ecfdf5; padding: 16px; text-align: left; }
+    .cupon-creado-header { font-size: 13px; font-weight: bold; color: #065f46; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .cupon-creado-codigo { font-size: 18px; font-weight: bold; color: #111; background: white; border: 1.5px dashed #704EFD; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; word-break: break-all; letter-spacing: 0.02em; text-align: center; }
+    .cupon-creado-mensaje-label { font-size: 12px; font-weight: bold; color: #667085; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .cupon-creado-mensaje-texto { width: 100%; min-height: 180px; padding: 12px; border: 1px solid #d0d5dd; border-radius: 6px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.6; color: #333; background: #fafafa; resize: vertical; box-sizing: border-box; }
+    .btn-copiar-creado { background-color: #28a745; margin-top: 8px; height: 38px; font-size: 13px; }
+    .btn-copiar-creado:hover:not(:disabled) { background-color: #218838; }
+    .btn-copiar-creado.copiado { background-color: #333 !important; }
+
+    @media (min-width: 480px) {
+        .portal-menu { flex-direction: row; }
+        .btn-portal { height: 100px; flex: 1; }
+    }
+    @media (max-width: 560px) {
+      .container { padding: 22px; }
+      .dato-fila { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .dato-valor { text-align: left; max-width: 100%; }
+      .cupon-extra { flex-direction: column; align-items: stretch; }
+      .cupon-extra-acciones { justify-content: flex-start; flex-wrap: wrap; }
+    }
   </style>
 </head>
 
@@ -82,7 +156,7 @@
       <div class="btn-volver-flotante" onclick="volverAlInicio()" title="Volver al Menú Principal">
           Volver al Menú
       </div>
-      </div>
+  </div>
 
   <img src="https://aula.adipa.cl/pluginfile.php/1/theme_mb2nl/logo/1732710878/LOGOADIPA%202%20%283%29%20%281%29.png" alt="Logo de ADIPA" class="logo" onclick="volverAlInicio()">
 
@@ -97,6 +171,9 @@
             </button>
             <button class="btn-portal" onclick="mostrarGestion('prorrogas')">
                 <span>Solicitud de Prórrogas</span>
+            </button>
+            <button class="btn-portal" onclick="mostrarGestion('cupones')">
+                <span>🎁 Cupones y Beneficios</span>
             </button>
         </div>
     </div>
@@ -200,38 +277,79 @@
         </div>
     </div>
 
+    <div id="seccion-cupones" class="hidden">
+        <h1>🎁 Cupones y Beneficios</h1>
+     
+        <label for="emailCupon">Correo electrónico</label>
+        <input type="email" id="emailCupon" placeholder="Ingresa el correo registrado en Adipa" required>
+     
+        <button id="btnBuscarCupon" type="button">Buscar contacto</button>
+     
+        <div class="mensaje" id="mensajeCupon"></div>
+     
+        <div id="resultadoBoxCupones" class="resultado-box-cupones hidden">
+          <div class="seccion-titulo">Información del contacto</div>
+     
+          <div class="dato-fila"><span class="dato-etiqueta">Nombre completo</span><span class="dato-valor" id="rNombre">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">Fecha de nacimiento</span><span class="dato-valor" id="rFechaNac">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">País</span><span class="dato-valor" id="rPais">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">Estado verificación</span><span class="dato-valor" id="rEstadoVerif">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">Fecha verificación</span><span class="dato-valor" id="rFechaVerif">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">Beneficiario Adipartners</span><span class="dato-valor" id="rAdipartners">—</span></div>
+          <div class="dato-fila"><span class="dato-etiqueta">Ver en HubSpot</span><span class="dato-valor"><a id="rUrlHubspot" href="#" target="_blank" class="btn-hubspot">Abrir contacto →</a></span></div>
+     
+          <div id="seccionCuponesLista" class="hidden">
+            <div class="seccion-titulo">Cupones asociados</div>
+            <div id="listaCuponesTodos"></div>
+          </div>
+     
+          <div id="seccionMensajeCumple" class="seccion-mensaje hidden">
+            <div class="seccion-titulo">Mensaje para el contacto</div>
+            <textarea id="mensajeContacto"></textarea>
+            <button class="btn-copiar" id="btnCopiarMensaje" type="button">Copiar mensaje</button>
+          </div>
+     
+          <button id="btnReiniciarCupon" type="button" class="btn-gris">Hacer otra consulta</button>
+        </div>
+    </div>
+
     <div class="mensaje" id="mensajeGral"></div>
   </div>
 
   <script>
-    /* LÓGICA DE NAVEGACIÓN ACTUALIZADA */
+    /* ==========================================================================
+       LÓGICA DE NAVEGACIÓN GENERAL
+       ========================================================================== */
     function mostrarGestion(tipo) {
         document.getElementById('pantalla-inicio').classList.add('hidden');
         document.getElementById('mensajeGral').textContent = "";
         
         // Mostrar botón flotante
         document.getElementById('wrapper-nav').classList.remove('hidden');
-        // ELIMINADO: const indicador = document.getElementById('texto-indicador');
 
         if (tipo === 'certificados') {
             document.getElementById('seccion-certificados').classList.remove('hidden');
-            // ELIMINADO: indicador.textContent = "CERTIFICADOS";
-        } else {
+        } else if (tipo === 'prorrogas') {
             document.getElementById('seccion-prorrogas').classList.remove('hidden');
-            // ELIMINADO: indicador.textContent = "PRÓRROGAS";
+        } else if (tipo === 'cupones') {
+            document.getElementById('seccion-cupones').classList.remove('hidden');
         }
     }
 
     function volverAlInicio() {
         document.getElementById('seccion-certificados').classList.add('hidden');
         document.getElementById('seccion-prorrogas').classList.add('hidden');
+        document.getElementById('seccion-cupones').classList.add('hidden');
         document.getElementById('wrapper-nav').classList.add('hidden');
         document.getElementById('pantalla-inicio').classList.remove('hidden');
         document.getElementById('mensajeGral').textContent = "";
         document.getElementById('mensajeGral').style.color = "#333";
+        reiniciarCupon(); // Limpia campos de cupones por comodidad al volver
     }
 
-    /* --- LÓGICA DE CERTIFICADOS --- */
+    /* ==========================================================================
+       --- LÓGICA DE CERTIFICADOS ---
+       ========================================================================== */
     const WEB_CERT_BUSCAR = "https://hook.us2.make.com/a8ja8l2g1oo7qsrjr5xqo3n4bacj8bf3";
     const WEB_CERT_DETALLES = "https://hook.us2.make.com/ay9xse6yhq7gifuf0smvc7fbub1f7rq1";
     const WEB_CERT_GENERAR = "https://hook.us2.make.com/2fappqnu386930rkwkxas6dg8bhnpesl";
@@ -343,7 +461,9 @@
       alert("¡Mensaje copiado!");
     }
 
-    /* --- LÓGICA DE PRÓRROGAS --- */
+    /* ==========================================================================
+       --- LÓGICA DE PRÓRROGAS ---
+       ========================================================================= */
     const WEB_PRORR_BUSCAR = "https://hook.us2.make.com/k6n5v5l2brwcfe3ab14t3s4rwojl1akg";
     const WEB_PRORR_MODULOS = "https://hook.us2.make.com/560sgwr5uq2dp1jn0whys0mws4yzuhby";
     const WEB_PRORR_ENVIAR = "https://hook.us2.make.com/tkiwujry2rm5llcu4jbu7u7qgy8u23qv";
@@ -430,7 +550,10 @@
             const modulos = await res.json();
             if (Array.isArray(modulos) && modulos.length > 0) {
                 let selectHtml = '<select id="modulo_select" multiple>';
-                modulos.forEach(m => { let val = (typeof m === 'object' && m !== null) ? (m.nombre || m.id) : m; selectHtml += `<option value="${val}">${val}</option>`; });
+                modulos.forEach(m => { 
+                    let val = (typeof m === 'object' && m !== null) ? (m.nombre || m.id) : m; 
+                    selectHtml += `<option value="${val}">${val}</option>`; 
+                });
                 selectHtml += '</select>';
                 document.getElementById("wrapperModulo").innerHTML = selectHtml;
                 document.getElementById("divModulo").classList.remove("hidden");
@@ -485,6 +608,945 @@
       navigator.clipboard.writeText(texto.value);
       alert("¡Copiado!");
     }
+
+    /* ==========================================================================
+       --- LÓGICA DE CUPONES Y BENEFICIOS ---
+       ========================================================================== */
+    const WEBHOOK_CUPONES = "https://hook.us2.make.com/6cskbge9qgwitfxrlcgux851o8agl5e7";
+    const WEBHOOK_SOLICITAR_CUPON = "https://hook.us2.make.com/pcrn15fn4outi020nxp5ywaqt6haxd5r";
+     
+    let contactoActual = null;
+    let archivoSolicitudFile = null;
+    let cuponPendienteActual = null;
+     
+    const MENSAJES_PAIS_CUPON = {
+      Chile: (nombre, cupon) =>
+  `Hola ${nombre}
+   
+  Enviamos a continuación tu cupón de cumpleaños! Enviamos tus datos a validar al equipo correspondiente, lo cual se ha generado el cupón y el próximo cumpleaños, lo recibirás directamente en tu correo.
+   
+  Tu cupón es: ${cupon}
+   
+  Te comentamos que el cupón de cumpleaños aplica exclusivamente para cursos que son en modalidad ASINCRÓNICA, con tope de valor de $30.000.- Si intentas usarlo en un curso que es en vivo, el sistema no permitirá procesar el beneficio.
+   
+  Para mejor orientación, te facilitamos este enlace donde se detallan los cursos asincrónicos disponibles, así puedes elegir tu mejor opción y agregar el curso al carrito, para luego aplicar el cupón: https://adipa.cl/programas-asincronicos/
+   
+  Si tienes cualquier duda, estaremos muy atentos.
+  Saludos,`,
+     
+      Colombia: (nombre, cupon) =>
+  `Hola ${nombre}
+   
+  Enviamos a continuación tu cupón de cumpleaños!
+   
+  Tu cupón es: ${cupon}
+   
+  Te comentamos que el cupón de cumpleaños aplica exclusivamente para cursos que son en modalidad ASINCRÓNICA, con tope de valor de $80.000.- Si intentas usarlo en un curso que es en vivo, el sistema no permitirá procesar el beneficio.
+   
+  Para mejor orientación, te facilitamos este enlace donde se detallan los cursos asincrónicos disponibles, así puedes elegir tu mejor opción y agregar el curso al carrito, para luego aplicar el cupón: https://adipa.co/programas-asincronicos/
+   
+  Si tienes cualquier duda, estaremos muy atentos.
+  Saludos!`,
+     
+      Mexico: (nombre, cupon) =>
+  `Hola ${nombre}
+   
+  Enviamos a continuación tu cupón de cumpleaños!
+   
+  Tu cupón es: ${cupon}
+   
+  Te comentamos que el cupón de cumpleaños aplica exclusivamente para cursos que son en modalidad ASINCRÓNICA, con tope de valor de $590 MXN.- Si intentas usarlo en un curso que es en vivo, el sistema no permitirá procesar el beneficio.
+   
+  Para mejor orientación, te facilitamos este enlace donde se detallan los cursos asincrónicos disponibles, así puedes elegir tu mejor opción y agregar el curso al carrito, para luego aplicar el cupón: https://adipa.mx/programas-asincronicos/
+   
+  Si tienes cualquier duda, estaremos muy atentos.
+  Saludos!`,
+    };
+     
+    const MENSAJE_RECHAZO = (nombre) =>
+  `Hola ${nombre}
+   
+  Revisamos tu solicitud de cupón de cumpleaños y, según la información registrada, actualmente no cumple con el plazo establecido para acceder a este beneficio.
+   
+  El cupón de cumpleaños solo puede ser solicitado dentro del período permitido asociado a la fecha de cumpleaños registrada. Por este motivo, en esta oportunidad no es posible generar el cupón.
+   
+  De todas formas, quedamos atentos si necesitas apoyo con otra consulta o beneficio disponible.
+  ¡Saludos!`;
+     
+    function generarMensajePaisCupon(pais, nombre, cupon) {
+      const paisNorm = (pais || "").toString().trim();
+      const fn = MENSAJES_PAIS_CUPON[paisNorm] || MENSAJES_PAIS_CUPON[paisNorm.charAt(0).toUpperCase() + paisNorm.slice(1).toLowerCase()];
+     
+      if (fn) return fn(nombre, cupon);
+     
+      return `Hola ${nombre}
+   
+  Tu cupón de cumpleaños es: ${cupon}
+   
+  Válido por 7 días para cursos en modalidad asincrónica.
+   
+  Si tienes cualquier duda, estaremos muy atentos.
+  Saludos!`;
+    }
+     
+    async function buscarContactoCupon() {
+      const email = document.getElementById("emailCupon").value.trim();
+      const mensaje = document.getElementById("mensajeCupon");
+      const btn = document.getElementById("btnBuscarCupon");
+     
+      if (!email) {
+        mensaje.textContent = "Ingresa un correo electrónico.";
+        mensaje.style.color = "red";
+        return;
+      }
+     
+      mensaje.textContent = "Buscando contacto...";
+      mensaje.style.color = "#666";
+      btn.disabled = true;
+     
+      document.getElementById("resultadoBoxCupones").classList.add("hidden");
+      document.getElementById("seccionCuponesLista").classList.add("hidden");
+      document.getElementById("seccionMensajeCumple").classList.add("hidden");
+      document.getElementById("listaCuponesTodos").innerHTML = "";
+      document.getElementById("mensajeContacto").value = "";
+     
+      contactoActual = null;
+      archivoSolicitudFile = null;
+      cuponPendienteActual = null;
+     
+      try {
+        const res = await fetch(WEBHOOK_CUPONES, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email })
+        });
+     
+        const texto = await res.text();
+        console.log("Respuesta Make:", texto);
+     
+        let data = null;
+     
+        try {
+          data = JSON.parse(texto);
+        } catch (error) {
+          throw new Error("Make no respondió en formato JSON válido.");
+        }
+     
+        if (!res.ok) {
+          throw new Error("Error HTTP " + res.status);
+        }
+     
+        if (!data || data.error || !data.nombre) {
+          mensaje.textContent = "No se encontró ningún contacto con ese correo.";
+          mensaje.style.color = "red";
+          return;
+        }
+     
+        mostrarResultadoCupon(data);
+     
+        mensaje.textContent = "Contacto encontrado.";
+        mensaje.style.color = "green";
+     
+      } catch (e) {
+        console.error("Error en búsqueda:", e);
+        mensaje.textContent = "Error al conectar con el servidor: " + e.message;
+        mensaje.style.color = "red";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+     
+    function badgeCupon(valor) {
+      if (!valor || valor === "null" || valor === "") {
+        return `<span class="badge badge-nd">Sin datos</span>`;
+      }
+     
+      const v = valor.toString().toLowerCase();
+     
+      if (v === "verified") return `<span class="badge badge-verified">✓ Verified</span>`;
+      if (v === "verificado" || v === "verificada") return `<span class="badge badge-verified">✓ Verificado</span>`;
+      if (v === "si" || v === "sí" || v === "true") return `<span class="badge badge-si">✓ Sí</span>`;
+      if (v === "no" || v === "false") return `<span class="badge badge-no">✗ No</span>`;
+     
+      return `<span class="badge badge-nd">${valor}</span>`;
+    }
+     
+    function estadoCupon(dateExpires) {
+      if (!dateExpires || dateExpires === "null" || dateExpires === "") {
+        return `<span class="badge badge-sinlimite">Sin límite</span>`;
+      }
+     
+      const hoy = new Date();
+      const vence = new Date(dateExpires);
+     
+      if (vence < hoy) {
+        return `<span class="badge badge-vencido">✗ Vencido</span>`;
+      }
+     
+      return `<span class="badge badge-vigente">✓ Vigente</span>`;
+    }
+     
+    function formatFechaCupon(f) {
+      if (!f || f === "null" || f === "") return "—";
+     
+      try {
+        return new Date(f).toLocaleDateString("es-CL", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        });
+      } catch {
+        return f;
+      }
+    }
+     
+    function obtenerPaisDesdeData(data) {
+      if (!data) return "";
+     
+      return (
+        data.pais ||
+        data.país ||
+        data.country ||
+        data.pais_contacto ||
+        data.Pais ||
+        data.País ||
+        data.país_contacto ||
+        ""
+      ).toString().trim();
+    }
+     
+    function obtenerPaisContacto() {
+      return obtenerPaisDesdeData(contactoActual);
+    }
+     
+    function estaVerificado() {
+      if (!contactoActual) return false;
+     
+      const estado = (
+        contactoActual.estado_verificacion ||
+        contactoActual.verificacion ||
+        contactoActual.estado ||
+        contactoActual.validacion_manual ||
+        contactoActual.validación_manual ||
+        ""
+      ).toString().toLowerCase().trim();
+     
+      return [
+        "verified",
+        "verificado",
+        "verificada",
+        "si",
+        "sí",
+        "true",
+        "aprobado",
+        "aprobada"
+      ].includes(estado);
+    }
+     
+    function mostrarResultadoCupon(data) {
+      contactoActual = data;
+      archivoSolicitudFile = null;
+      cuponPendienteActual = null;
+     
+      const paisContacto = obtenerPaisDesdeData(data);
+     
+      document.getElementById("rNombre").textContent = data.nombre || "—";
+      document.getElementById("rFechaNac").textContent = formatFechaCupon(data.fecha_nacimiento);
+      document.getElementById("rPais").textContent = paisContacto || "—";
+      document.getElementById("rEstadoVerif").innerHTML = badgeCupon(data.estado_verificacion);
+      document.getElementById("rFechaVerif").textContent = formatFechaCupon(data.fecha_verificacion);
+      document.getElementById("rAdipartners").innerHTML = badgeCupon(data.es_adipartners);
+      document.getElementById("rUrlHubspot").href = data.url_hubspot || "#";
+     
+      const nombre = data.nombre || "estimado/a";
+      const lista = document.getElementById("listaCuponesTodos");
+     
+      lista.innerHTML = "";
+     
+      const cupones = [];
+      const cuponCumple = data.cupon_cumpleanos || "";
+      const tieneCuponCumple = cuponCumple && cuponCumple.trim() !== "" && cuponCumple !== "null";
+     
+      let dateExpiresCumple = null;
+     
+      if (data.cupones_estado) {
+        const ce = data.cupones_estado;
+     
+        if (Array.isArray(ce)) {
+          const encontrado = ce.find(c => {
+            const tipo = c.Tipo || c.tipo || "";
+            return tipo === "Cupón Cumpleaños" || tipo === "Cupón de Cumpleaños";
+          });
+     
+          if (encontrado) {
+            const dataArr = encontrado.Data || encontrado.data || [];
+            if (dataArr[0]) dateExpiresCumple = dataArr[0].date_expires;
+          }
+     
+        } else if (ce.data && ce.data[0]) {
+          dateExpiresCumple = ce.data[0].date_expires;
+        }
+      }
+     
+      cupones.push({
+        tipo: "Cupón de Cumpleaños",
+        codigo: tieneCuponCumple ? cuponCumple : "Sin cupón asociado",
+        textoFecha: tieneCuponCumple ? "Entregado: " + formatFechaCupon(data.fecha_entrega_cupon) : "Sin fecha de entrega",
+        dateExpires: tieneCuponCumple ? dateExpiresCumple : null,
+        sinCupon: !tieneCuponCumple,
+        mensaje: tieneCuponCumple
+          ? crearMensajeCupon({
+              nombre,
+              tipo: "Cupón de Cumpleaños",
+              codigo: cuponCumple,
+              fechaEntrega: formatFechaCupon(data.fecha_entrega_cupon),
+              dateExpires: dateExpiresCumple,
+              sinCupon: false
+            })
+          : crearMensajeCupon({
+              nombre,
+              tipo: "Cupón de Cumpleaños",
+              codigo: "",
+              fechaEntrega: null,
+              dateExpires: null,
+              sinCupon: true
+            })
+      });
+     
+      if (data.cupones_estado && Array.isArray(data.cupones_estado)) {
+        data.cupones_estado.forEach(c => {
+          const tipo = c.Tipo || c.tipo || "Cupón";
+          const codigo = c.Codigo || c.codigo || "";
+     
+          if (!codigo || codigo.trim() === "") return;
+          if (tipo === "Cupón Cumpleaños" || tipo === "Cupón de Cumpleaños") return;
+     
+          const dataArr = c.Data || c.data || [];
+          const dateExpires = dataArr[0] ? dataArr[0].date_expires : null;
+     
+          cupones.push({
+            tipo,
+            codigo,
+            textoFecha: dateExpires ? "Vence: " + formatFechaCupon(dateExpires) : "Sin fecha límite",
+            dateExpires,
+            sinCupon: false,
+            mensaje: crearMensajeCupon({
+              nombre,
+              tipo,
+              codigo,
+              fechaEntrega: null,
+              dateExpires,
+              sinCupon: false
+            })
+          });
+        });
+      }
+     
+      cupones.forEach(cupon => lista.appendChild(crearItemCupon(cupon)));
+     
+      document.getElementById("seccionCuponesLista").classList.remove("hidden");
+      document.getElementById("seccionMensajeCumple").classList.add("hidden");
+      document.getElementById("mensajeContacto").value = "";
+      document.getElementById("resultadoBoxCupones").classList.remove("hidden");
+    }
+     
+    function crearItemCupon(cupon) {
+      const div = document.createElement("div");
+      div.className = "cupon-extra";
+     
+      if (cupon.sinCupon) div.classList.add("sin-cupon");
+     
+      div.setAttribute("data-mensaje", cupon.mensaje);
+     
+      const info = document.createElement("div");
+      info.className = "cupon-extra-info";
+     
+      const tipo = document.createElement("div");
+      tipo.className = "tipo";
+      tipo.textContent = cupon.tipo;
+     
+      const codigo = document.createElement("div");
+      codigo.className = "codigo";
+      codigo.textContent = cupon.codigo;
+     
+      if (cupon.sinCupon) codigo.classList.add("sin-cupon-texto");
+     
+      const vence = document.createElement("div");
+      vence.className = "vence";
+      vence.textContent = cupon.textoFecha;
+     
+      info.appendChild(tipo);
+      info.appendChild(codigo);
+      info.appendChild(vence);
+     
+      const acciones = document.createElement("div");
+      acciones.className = "cupon-extra-acciones";
+     
+      const estado = document.createElement("span");
+      estado.innerHTML = cupon.sinCupon
+        ? `<span class="badge badge-sincupon">Sin cupón</span>`
+        : estadoCupon(cupon.dateExpires);
+     
+      acciones.appendChild(estado);
+     
+      if (cupon.sinCupon) {
+        const btnSolicitar = document.createElement("button");
+        btnSolicitar.className = "btn-mini btn-solicitar";
+        btnSolicitar.textContent = "Solicitar cupón";
+        btnSolicitar.id = "btnSolicitarCuponPrincipal";
+        btnSolicitar.type = "button";
+     
+        if (estaVerificado()) {
+          btnSolicitar.disabled = false;
+          btnSolicitar.addEventListener("click", () => solicitarCuponCumple(false));
+        } else {
+          btnSolicitar.disabled = true;
+          btnSolicitar.title = "Debes cargar el documento para habilitar la solicitud";
+          btnSolicitar.addEventListener("click", () => solicitarCuponCumple(true));
+        }
+     
+        acciones.appendChild(btnSolicitar);
+     
+      } else {
+        const btnCopiar = document.createElement("button");
+        btnCopiar.className = "btn-mini";
+        btnCopiar.textContent = "Copy";
+        btnCopiar.type = "button";
+        btnCopiar.addEventListener("click", () => copiarTextoDirecto(cupon.codigo, btnCopiar));
+     
+        acciones.appendChild(btnCopiar);
+      }
+     
+      const btnMensaje = document.createElement("button");
+      btnMensaje.className = "btn-mini";
+      btnMensaje.style.background = "#704EFD";
+      btnMensaje.textContent = "Mensaje";
+      btnMensaje.type = "button";
+      btnMensaje.addEventListener("click", () => cargarMensajeSeccion(btnMensaje));
+     
+      acciones.appendChild(btnMensaje);
+     
+      div.appendChild(info);
+      div.appendChild(acciones);
+     
+      if (cupon.sinCupon && !estaVerificado()) {
+        const panel = document.createElement("div");
+        panel.className = "panel-solicitud-cupon";
+        panel.innerHTML = crearPanelSolicitudCupon();
+        div.appendChild(panel);
+        activarEventosPanelSolicitud(panel);
+      }
+     
+      return div;
+    }
+     
+    function crearPanelSolicitudCupon() {
+      return `
+        <div class="panel-inner">
+          <p class="panel-texto">Este contacto aún no se encuentra verificado. Para habilitar la solicitud del cupón de cumpleaños, adjunta la cédula o documento de identidad.</p>
+     
+          <div class="upload-solicitud-zone">
+            <input type="file" id="archivoSolicitudCupon" accept="image/jpeg,image/png,application/pdf" style="display:none;">
+            <div class="upload-icon">📎</div>
+            <div><strong>Haz clic para adjuntar</strong> o arrastra el archivo aquí</div>
+            <div class="upload-ayuda">También puedes pegar una imagen con Ctrl+V</div>
+          </div>
+     
+          <div id="previewSolicitudCupon" class="preview-solicitud hidden">
+            <span id="nombreArchivoSolicitud">Archivo seleccionado</span>
+            <button type="button" id="btnQuitarArchivoSolicitud">Quitar</button>
+          </div>
+     
+          <div id="respuestaSolicitudCupon" class="respuesta-solicitud hidden"></div>
+        </div>`;
+    }
+     
+    function activarEventosPanelSolicitud(panel) {
+      const zona = panel.querySelector(".upload-solicitud-zone");
+      const input = panel.querySelector("#archivoSolicitudCupon");
+      const btnQuitar = panel.querySelector("#btnQuitarArchivoSolicitud");
+     
+      if (zona && input) {
+        zona.addEventListener("click", () => input.click());
+     
+        zona.addEventListener("dragover", function(e) {
+          e.preventDefault();
+          zona.classList.add("drag-over");
+        });
+     
+        zona.addEventListener("dragleave", function(e) {
+          e.preventDefault();
+          zona.classList.remove("drag-over");
+        });
+     
+        zona.addEventListener("drop", function(e) {
+          e.preventDefault();
+          zona.classList.remove("drag-over");
+     
+          const file = e.dataTransfer.files[0];
+          if (file) procesarArchivoSolicitud(file);
+        });
+     
+        input.addEventListener("change", function(e) {
+          const file = e.target.files[0];
+          if (file) procesarArchivoSolicitud(file);
+        });
+      }
+     
+      if (btnQuitar) {
+        btnQuitar.addEventListener("click", limpiarArchivoSolicitud);
+      }
+    }
+     
+    async function solicitarCuponCumple(requiereArchivo) {
+      const respuesta = document.getElementById("respuestaSolicitudCupon");
+      const btn = document.getElementById("btnSolicitarCuponPrincipal");
+     
+      if (requiereArchivo && !archivoSolicitudFile) {
+        if (respuesta) {
+          respuesta.classList.remove("hidden");
+          respuesta.className = "respuesta-solicitud error";
+          respuesta.textContent = "Debes adjuntar o pegar la cédula antes de solicitar el cupón.";
+        }
+        return;
+      }
+     
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Solicitando...";
+      }
+     
+      if (respuesta) {
+        respuesta.classList.remove("hidden");
+        respuesta.className = "respuesta-solicitud";
+        respuesta.textContent = "Enviando solicitud a Make...";
+      }
+     
+      const formData = new FormData();
+     
+      formData.append("accion", "solicitar_cupon_cumpleanos");
+      formData.append("nombre", contactoActual?.nombre || "");
+      formData.append("email", document.getElementById("emailCupon").value.trim());
+      formData.append("pais", obtenerPaisContacto());
+      formData.append("fecha_nacimiento", contactoActual?.fecha_nacimiento || "");
+      formData.append("estado_verificacion", contactoActual?.estado_verificacion || "");
+      formData.append("fecha_verificacion", contactoActual?.fecha_verificacion || "");
+      formData.append("contacto_verificado", estaVerificado());
+      formData.append("es_adipartners", contactoActual?.es_adipartners || "");
+      formData.append("url_hubspot", contactoActual?.url_hubspot || "");
+      formData.append("requiere_archivo", requiereArchivo);
+      formData.append("fuente", "formulario_cupones_beneficios");
+     
+      if (requiereArchivo && archivoSolicitudFile) {
+        formData.append("cedula_archivo", archivoSolicitudFile, archivoSolicitudFile.name);
+      }
+     
+      try {
+        const res = await fetch(WEBHOOK_SOLICITAR_CUPON, {
+          method: "POST",
+          body: formData
+        });
+     
+        const texto = await res.text();
+        console.log("Respuesta Make solicitud cupón:", texto);
+     
+        let data = null;
+     
+        try {
+          data = JSON.parse(texto);
+        } catch {
+          data = {
+            mensaje: texto || "Solicitud enviada correctamente."
+          };
+        }
+     
+        if (!res.ok) {
+          throw new Error("Error HTTP " + res.status);
+        }
+     
+        mostrarRespuestaSolicitudCupon(data);
+     
+      } catch (e) {
+        console.error("Error al solicitar cupón:", e);
+     
+        if (respuesta) {
+          respuesta.classList.remove("hidden");
+          respuesta.className = "respuesta-solicitud error";
+          respuesta.textContent = "No se pudo enviar la solicitud. Revisa el webhook o intenta nuevamente. " + e.message;
+        }
+     
+      } finally {
+        if (btn) {
+          btn.textContent = "Solicitar cupón";
+          btn.disabled = estaVerificado() ? false : !archivoSolicitudFile;
+        }
+      }
+    }
+     
+    function mostrarRespuestaSolicitudCupon(data) {
+      const respuestaEl = document.getElementById("respuestaSolicitudCupon");
+     
+      if (data && data.success === false) {
+        const nombre = contactoActual?.nombre || "estimado/a";
+     
+        if (respuestaEl) {
+          respuestaEl.classList.remove("hidden");
+          respuestaEl.className = "respuesta-solicitud error";
+          respuestaEl.textContent = "Solicitud rechazada: no cumple con el plazo del beneficio.";
+        }
+     
+        document.getElementById("seccionMensajeCumple").classList.remove("hidden");
+        document.getElementById("mensajeContacto").value = MENSAJE_RECHAZO(nombre);
+        document.getElementById("seccionMensajeCumple").scrollIntoView({ behavior: "smooth", block: "start" });
+     
+        return;
+      }
+     
+      const codigoCupon = data?.cupon || data?.codigo || data?.codigo_cupon || "";
+      const nombre = contactoActual?.nombre || "estimado/a";
+      const pais = obtenerPaisContacto();
+     
+      if (respuestaEl) {
+        respuestaEl.classList.remove("hidden");
+        respuestaEl.className = "respuesta-solicitud ok";
+        respuestaEl.textContent = codigoCupon
+          ? `✅ Cupón creado: ${codigoCupon}`
+          : (data?.mensaje || data?.message || "Solicitud enviada correctamente.");
+      }
+     
+      if (codigoCupon) {
+        mostrarPanelCuponCreado(codigoCupon, nombre, pais);
+      }
+    }
+     
+    function mostrarPanelCuponCreado(codigoCupon, nombre, pais) {
+      const anterior = document.getElementById("panelCuponCreado");
+      if (anterior) anterior.remove();
+     
+      const mensaje = generarMensajePaisCupon(pais, nombre, codigoCupon);
+     
+      const panel = document.createElement("div");
+      panel.id = "panelCuponCreado";
+      panel.className = "cupon-creado-panel";
+     
+      panel.innerHTML = `
+        <div class="cupon-creado-header">🎉 Cupón generado correctamente</div>
+        <div class="cupon-creado-codigo">${codigoCupon}</div>
+        <div class="cupon-creado-mensaje-label">Mensaje para enviar al beneficiario</div>
+        <textarea class="cupon-creado-mensaje-texto" id="textoCuponCreado" readonly>${mensaje}</textarea>
+        <button class="btn-copiar-creado" id="btnCopiarCuponCreado" type="button">Copiar mensaje</button>`;
+     
+      const respuestaEl = document.getElementById("respuestaSolicitudCupon");
+     
+      if (respuestaEl && respuestaEl.parentNode) {
+        respuestaEl.parentNode.insertBefore(panel, respuestaEl.nextSibling);
+      }
+     
+      const btnCopiar = document.getElementById("btnCopiarCuponCreado");
+      if (btnCopiar) {
+        btnCopiar.addEventListener("click", copiarMensajeCuponCreado);
+      }
+     
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+     
+    function copiarMensajeCuponCreado() {
+      const texto = document.getElementById("textoCuponCreado")?.value;
+      const btn = document.getElementById("btnCopiarCuponCreado");
+     
+      if (!texto || !btn) return;
+     
+      navigator.clipboard.writeText(texto).then(() => {
+        btn.textContent = "¡Copiado!";
+        btn.classList.add("copiado");
+     
+        setTimeout(() => {
+          btn.textContent = "Copiar mensaje";
+          btn.classList.remove("copiado");
+        }, 2000);
+      });
+    }
+     
+    function crearMensajeCupon({ nombre, tipo, codigo, fechaEntrega, dateExpires, sinCupon }) {
+      if (sinCupon) {
+        return `Hola, ${nombre}
+   
+  Revisamos tu información y, por el momento, no encontramos un cupón de cumpleaños asociado a tu contacto.
+  Si realizaste una solicitud recientemente, podemos revisarla para confirmar el estado del beneficio.
+   
+  Quedamos atentos para ayudarte.
+   
+  ¡Saludos!`;
+      }
+     
+      const vencido = dateExpires && new Date(dateExpires) < new Date();
+      const tipoLower = tipo.toLowerCase();
+      const esCumple = tipoLower.includes("cumple");
+      const esAdipartners = tipoLower.includes("adipartner");
+     
+      if (esCumple && vencido) {
+        return `Hola, ${nombre}
+   
+  Revisamos el cupón de cumpleaños asociado a tu solicitud: ${codigo}
+   
+  Este cupón fue entregado el día ${fechaEntrega} y actualmente se encuentra vencido, ya que superó el plazo disponible para su uso.
+  De todas formas, si tienes alguna duda o necesitas apoyo con otra alternativa, quedamos atentos para ayudarte.
+   
+  ¡Saludos!`;
+      }
+     
+      if (esCumple && !vencido) {
+        return `Hola, ${nombre}
+   
+  Enviamos a continuación tu cupón de cumpleaños: ${codigo}
+   
+  Tienes 7 días a contar de la fecha de entrega para usarlo, válido solo para cursos en modalidad Asincrónica, con tope de valor de $30.000.-
+   
+  Para mejor orientación, te facilitamos este enlace donde se detallan los cursos asincrónicos disponibles: https://adipa.cl/programas-asincronicos/
+   
+  Si tienes cualquier duda, estaremos muy atentos.
+  Saludos,`;
+      }
+     
+      if (esAdipartners && !vencido) {
+        return `Hola, ${nombre}
+   
+  Te compartimos el cupón asociado a tu beneficio ADIPARTNERS: ${codigo}
+   
+  Puedes aplicarlo al momento de realizar tu compra, ingresándolo en el carrito antes de finalizar el pago.
+   
+  ¡Saludos!`;
+      }
+     
+      if (esAdipartners && vencido) {
+        return `Hola, ${nombre}
+   
+  Revisamos el cupón asociado a tu beneficio ADIPARTNERS: ${codigo}
+   
+  Actualmente este cupón se encuentra vencido.
+  Si necesitas revisar otra alternativa puedes escribirnos al correo: beneficios@adipa.cl
+   
+  ¡Saludos!`;
+      }
+     
+      if (!vencido) {
+        return `Hola, ${nombre}
+   
+  Te compartimos el cupón asociado a tu solicitud: ${codigo}
+   
+  Puedes aplicarlo al momento de realizar tu compra.
+  Si tienes cualquier duda, estaremos felices de ayudarte.
+   
+  ¡Saludos!`;
+      }
+     
+      return `Hola, ${nombre}
+   
+  Revisamos el cupón asociado a tu solicitud: ${codigo}
+   
+  Actualmente este cupón se encuentra vencido.
+   
+  ¡Saludos!`;
+    }
+     
+    function cargarMensajeSeccion(btn) {
+      const div = btn.closest(".cupon-extra");
+      const mensaje = div.getAttribute("data-mensaje");
+     
+      document.getElementById("seccionMensajeCumple").classList.remove("hidden");
+      document.getElementById("mensajeContacto").value = mensaje;
+      document.getElementById("seccionMensajeCumple").scrollIntoView({ behavior: "smooth", block: "start" });
+     
+      const original = btn.innerText;
+      btn.innerText = "¡Cargado!";
+     
+      setTimeout(() => {
+        btn.innerText = original;
+      }, 1500);
+    }
+     
+    function copiarMensajeSeccion() {
+      const texto = document.getElementById("mensajeContacto").value;
+      const btn = document.getElementById("btnCopiarMensaje");
+     
+      if (!texto || !btn) return;
+     
+      navigator.clipboard.writeText(texto).then(() => {
+        const original = btn.innerText;
+     
+        btn.innerText = "¡Copiado!";
+        btn.classList.add("btn-copiado");
+     
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.classList.remove("btn-copiado");
+        }, 1500);
+      });
+    }
+     
+    function copiarTextoDirecto(texto, btn) {
+      if (!texto || !btn) return;
+     
+      navigator.clipboard.writeText(texto).then(() => {
+        const original = btn.innerText;
+     
+        btn.innerText = "¡Copiado!";
+        btn.classList.add("btn-copiado");
+     
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.classList.remove("btn-copiado");
+        }, 1500);
+      });
+    }
+     
+    function procesarArchivoSolicitud(file) {
+      const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+     
+      if (!allowedTypes.includes(file.type)) {
+        alert("Formato no permitido. Solo se permite JPG, PNG o PDF.");
+        return;
+      }
+     
+      if (file.size > 5 * 1024 * 1024) {
+        alert("El archivo supera los 5MB.");
+        return;
+      }
+     
+      archivoSolicitudFile = file;
+     
+      const preview = document.getElementById("previewSolicitudCupon");
+      const nombreArchivo = document.getElementById("nombreArchivoSolicitud");
+      const btnSolicitar = document.getElementById("btnSolicitarCuponPrincipal");
+     
+      if (preview && nombreArchivo) {
+        nombreArchivo.textContent = file.name + " · " + Math.round(file.size / 1024) + " KB";
+        preview.classList.remove("hidden");
+      }
+     
+      if (btnSolicitar) {
+        btnSolicitar.disabled = false;
+        btnSolicitar.title = "";
+        btnSolicitar.textContent = "Solicitar cupón";
+     
+        btnSolicitar.replaceWith(btnSolicitar.cloneNode(true));
+     
+        const nuevoBtn = document.getElementById("btnSolicitarCuponPrincipal");
+        nuevoBtn.addEventListener("click", () => solicitarCuponCumple(true));
+      }
+     
+      const respuesta = document.getElementById("respuestaSolicitudCupon");
+     
+      if (respuesta) {
+        respuesta.classList.add("hidden");
+        respuesta.textContent = "";
+      }
+    }
+     
+    function limpiarArchivoSolicitud() {
+      archivoSolicitudFile = null;
+     
+      const input = document.getElementById("archivoSolicitudCupon");
+      const preview = document.getElementById("previewSolicitudCupon");
+      const nombreArchivo = document.getElementById("nombreArchivoSolicitud");
+      const btnSolicitar = document.getElementById("btnSolicitarCuponPrincipal");
+     
+      if (input) input.value = "";
+      if (preview) preview.classList.add("hidden");
+      if (nombreArchivo) nombreArchivo.textContent = "Archivo seleccionado";
+     
+      if (btnSolicitar && !estaVerificado()) {
+        btnSolicitar.disabled = true;
+        btnSolicitar.title = "Debes cargar el documento para habilitar la solicitud";
+        btnSolicitar.textContent = "Solicitar cupón";
+     
+        btnSolicitar.replaceWith(btnSolicitar.cloneNode(true));
+     
+        const nuevoBtn = document.getElementById("btnSolicitarCuponPrincipal");
+        nuevoBtn.addEventListener("click", () => solicitarCuponCumple(true));
+      }
+    }
+     
+    function reiniciarCupon() {
+      const emailInp = document.getElementById("emailCupon");
+      const mensInp = document.getElementById("mensajeCupon");
+      if(emailInp) emailInp.value = "";
+      if(mensInp) mensInp.textContent = "";
+     
+      const resBox = document.getElementById("resultadoBoxCupones");
+      const secCup = document.getElementById("seccionCuponesLista");
+      const secMen = document.getElementById("seccionMensajeCumple");
+      const lstCup = document.getElementById("listaCuponesTodos");
+      const txtCon = document.getElementById("mensajeContacto");
+
+      if(resBox) resBox.classList.add("hidden");
+      if(secCup) secCup.classList.add("hidden");
+      if(secMen) secMen.classList.add("hidden");
+      if(lstCup) lstCup.innerHTML = "";
+      if(txtCon) txtCon.value = "";
+     
+      const panelCreado = document.getElementById("panelCuponCreado");
+      if (panelCreado) panelCreado.remove();
+     
+      contactoActual = null;
+      archivoSolicitudFile = null;
+      cuponPendienteActual = null;
+    }
+     
+    /* Evento global para capturar pegado de imágenes */
+    document.addEventListener("paste", function(e) {
+      const panelVisible = document.querySelector(".panel-solicitud-cupon");
+      if (!panelVisible) return;
+     
+      const items = e.clipboardData?.items;
+      if (!items) return;
+     
+      for (const item of items) {
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+     
+          if (file) {
+            procesarArchivoSolicitud(
+              new File([file], "cedula-pegada-desde-portapapeles.png", {
+                type: file.type
+              })
+            );
+          }
+          break;
+        }
+      }
+    });
+     
+    /* Inicialización de Eventos para Cupones */
+    document.addEventListener("DOMContentLoaded", function() {
+      const btnBuscarC = document.getElementById("btnBuscarCupon");
+      const emailInputC = document.getElementById("emailCupon");
+      const btnCopiarMensajeC = document.getElementById("btnCopiarMensaje");
+      const btnReiniciarC = document.getElementById("btnReiniciarCupon");
+     
+      if (btnBuscarC) {
+        btnBuscarC.addEventListener("click", buscarContactoCupon);
+      }
+     
+      if (emailInputC) {
+        emailInputC.addEventListener("keydown", function(e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            buscarContactoCupon();
+          }
+        });
+      }
+     
+      if (btnCopiarMensajeC) {
+        btnCopiarMensajeC.addEventListener("click", copiarMensajeSeccion);
+      }
+     
+      if (btnReiniciarC) {
+        btnReiniciarC.addEventListener("click", reiniciarCupon);
+      }
+    });
   </script>
 </body>
 </html>
